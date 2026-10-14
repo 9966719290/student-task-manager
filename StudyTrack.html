@@ -1,221 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudyTrack - Student Task Manager</title>
-  <style>
-    * { box-sizing: border-box; }
-    html, body, #root { min-width: 320px; min-height: 100%; }
-    body {
-      margin: 0; min-height: 100vh; font-family: Arial, sans-serif;
-      background: #f4f6fb; color: #20243a;
-    }
-    button, input { font: inherit; }
-    .header {
-      background: #fff; padding: 20px 8%; display: flex;
-      justify-content: space-between; align-items: center;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    .logo { font-size: 23px; font-weight: bold; color: #635bdb; }
-    .header span { color: #666b7a; font-size: 14px; }
-    .container { width: min(900px, 92%); margin: 35px auto; }
-    .welcome { background: #635bdb; color: white; padding: 30px; border-radius: 16px; }
-    .tag { font-size: 12px; letter-spacing: 2px; font-weight: bold; }
-    .welcome h1 { font-size: 30px; margin: 12px 0; }
-    .welcome p:last-child { line-height: 1.6; }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0; }
-    .stat-card, .task-panel {
-      background: white; padding: 22px; border-radius: 12px;
-      box-shadow: 0 3px 15px #20243a0b;
-    }
-    .stat-card span { color: #777b89; font-size: 14px; }
-    .stat-card h2 { font-size: 28px; margin: 10px 0 0; color: #635bdb; }
-    .task-panel h2 { margin-top: 0; }
-    .task-form { display: flex; gap: 10px; }
-    .task-form input {
-      flex: 1; min-width: 0; padding: 13px; border: 1px solid #d9dce7;
-      border-radius: 8px; outline-color: #635bdb;
-    }
-    .task-form button {
-      background: #635bdb; color: white; border: none;
-      border-radius: 8px; padding: 12px 18px; cursor: pointer;
-    }
-    .filters { display: flex; gap: 10px; margin: 22px 0; }
-    .filters button {
-      background: #f0efff; color: #635bdb; border: none;
-      padding: 9px 15px; border-radius: 20px; cursor: pointer;
-    }
-    .filters button.active { background: #635bdb; color: white; }
-    .task-list { display: grid; gap: 10px; }
-    .task-item {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 12px; padding: 14px; border: 1px solid #ececf2; border-radius: 8px;
-    }
-    .task-label { display: flex; align-items: center; gap: 10px; overflow-wrap: anywhere; }
-    .task-label input { accent-color: #635bdb; }
-    .done { text-decoration: line-through; color: #9295a1; }
-    .delete-btn {
-      background: #fff0f0; color: #d63e48; border: none;
-      padding: 8px 12px; border-radius: 6px; cursor: pointer;
-    }
-    .empty { text-align: center; color: #777b89; padding: 25px 5px; }
-    footer { text-align: center; padding: 25px 0; color: #777b89; font-size: 13px; }
-    @media (max-width: 600px) {
-      .header { padding: 16px 4%; gap: 10px; }
-      .header span { font-size: 12px; }
-      .container { margin: 20px auto; }
-      .welcome { padding: 22px; }
-      .welcome h1 { font-size: 24px; }
-      .stats { gap: 8px; }
-      .stat-card { padding: 12px 8px; }
-      .stat-card span { font-size: 12px; }
-      .stat-card h2 { font-size: 23px; }
-      .task-panel { padding: 16px; }
-      .task-form { flex-direction: column; }
-      .task-form button { padding: 12px; }
-      .filters { flex-wrap: wrap; }
-    }
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>StudyTrack - Student Task Manager</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--text:#20243a;--muted:#777b89;--border:#e5e7ef;--primary:#635bdb;--soft:#f0efff;--shadow:0 3px 15px #20243a0b}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:var(--bg);color:var(--text);transition:.2s}body.dark{--bg:#151724;--card:#222538;--text:#f2f3fb;--muted:#b1b5c8;--border:#373b52;--soft:#343052;--shadow:0 3px 15px #0002}button,input,select{font:inherit}button{cursor:pointer}.header{background:var(--card);padding:18px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);gap:12px}.logo{font-size:23px;font-weight:bold;color:var(--primary)}.header-right{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px}.container{width:min(1100px,94%);margin:28px auto}.welcome{background:linear-gradient(120deg,#635bdb,#8178ef);color:white;padding:28px;border-radius:16px}.tag{font-size:12px;letter-spacing:2px;font-weight:bold}.welcome h1{font-size:30px;margin:12px 0}.welcome p:last-child{line-height:1.5}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.stat-card,.panel{background:var(--card);padding:20px;border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--border)}.stat-card span{color:var(--muted);font-size:13px}.stat-card h2{font-size:28px;margin:9px 0 0;color:var(--primary)}.progress-wrap{margin-top:12px;background:#e8e8f2;border-radius:20px;height:8px;overflow:hidden}.progress-bar{height:100%;background:#635bdb;transition:width .2s}.panel h2{margin:0 0 16px}.form-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:9px}.field{width:100%;min-width:0;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);outline-color:var(--primary)}.primary{background:var(--primary);color:#fff;border:0;border-radius:8px;padding:12px 16px}.secondary{background:var(--soft);color:var(--primary);border:0;border-radius:8px;padding:10px 13px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:9px;margin:18px 0}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}.filter-btn{background:var(--soft);color:var(--primary);border:0;padding:9px 14px;border-radius:20px}.filter-btn.active{background:var(--primary);color:#fff}.task-list{display:grid;gap:10px}.task-item{border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.task-main{display:flex;gap:11px;min-width:0;flex:1}.task-main input{margin-top:4px;accent-color:var(--primary)}.task-title{font-weight:bold;overflow-wrap:anywhere}.done{text-decoration:line-through;color:var(--muted)}.meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;color:var(--muted);font-size:12px}.pill{padding:4px 8px;border-radius:20px;background:var(--soft);color:var(--primary)}.high{background:#ffeded;color:#c73540}.medium{background:#fff3d9;color:#966200}.low{background:#e4f8eb;color:#237a45}.overdue{color:#d63e48;font-weight:bold}.task-actions{display:flex;gap:6px;flex-wrap:wrap}.small-btn{border:0;border-radius:6px;padding:8px 10px}.edit-btn{background:var(--soft);color:var(--primary)}.delete-btn{background:#fff0f0;color:#d63e48}.empty{text-align:center;color:var(--muted);padding:25px 5px}.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.hint{font-size:13px;color:var(--muted)}footer{text-align:center;padding:25px 0;color:var(--muted);font-size:13px}.toast{margin:0 0 12px;padding:10px 12px;background:#e4f8eb;color:#237a45;border-radius:8px}.hidden{display:none!important}@media(max-width:800px){.form-grid{grid-template-columns:1fr 1fr}.form-grid input:first-child{grid-column:1/-1}.toolbar{grid-template-columns:1fr 1fr}.toolbar .field:first-child{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:500px){.header{padding:15px 4%}.header-right span{display:none}.container{margin:18px auto}.welcome{padding:22px}.welcome h1{font-size:24px}.stat-card{padding:14px}.stat-card h2{font-size:24px}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.form-grid input:first-child{grid-column:auto}.toolbar{grid-template-columns:1fr 1fr}.task-item{flex-direction:column}.task-actions{align-self:flex-end}}
+</style>
 </head>
 <body>
-  <div id="root"></div>
-
-  <!-- React libraries load from the internet, so an internet connection is needed. -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <script type="text/babel">
-    const { useEffect, useState } = React;
-
-    function App() {
-      const [tasks, setTasks] = useState(() => {
-        try {
-          return JSON.parse(localStorage.getItem("studentTasks")) || [];
-        } catch {
-          return [];
-        }
-      });
-      const [taskName, setTaskName] = useState("");
-      const [filter, setFilter] = useState("All");
-
-      useEffect(() => {
-        localStorage.setItem("studentTasks", JSON.stringify(tasks));
-      }, [tasks]);
-
-      function addTask(e) {
-        e.preventDefault();
-        if (taskName.trim() === "") return;
-
-        const newTask = {
-          id: Date.now(),
-          title: taskName.trim(),
-          completed: false
-        };
-        setTasks([...tasks, newTask]);
-        setTaskName("");
-      }
-
-      function toggleTask(id) {
-        setTasks(tasks.map(task =>
-          task.id === id ? { ...task, completed: !task.completed } : task
-        ));
-      }
-
-      function deleteTask(id) {
-        setTasks(tasks.filter(task => task.id !== id));
-      }
-
-      const completedCount = tasks.filter(task => task.completed).length;
-      const pendingCount = tasks.length - completedCount;
-      const filteredTasks = tasks.filter(task => {
-        if (filter === "Pending") return !task.completed;
-        if (filter === "Completed") return task.completed;
-        return true;
-      });
-
-      return (
-        <div className="app">
-          <header className="header">
-            <div className="logo">StudyTrack</div>
-            <span>Student Task Manager</span>
-          </header>
-
-          <main className="container">
-            <section className="welcome">
-              <p className="tag">YOUR STUDY PLANNER</p>
-              <h1>Plan your day, achieve more!</h1>
-              <p>Organize your assignments and stay productive.</p>
-            </section>
-
-            <section className="stats">
-              <div className="stat-card"><span>Total Tasks</span><h2>{tasks.length}</h2></div>
-              <div className="stat-card"><span>Pending</span><h2>{pendingCount}</h2></div>
-              <div className="stat-card"><span>Completed</span><h2>{completedCount}</h2></div>
-            </section>
-
-            <section className="task-panel">
-              <h2>My Tasks</h2>
-              <form className="task-form" onSubmit={addTask}>
-                <input
-                  type="text"
-                  placeholder="Enter a task..."
-                  value={taskName}
-                  onChange={e => setTaskName(e.target.value)}
-                />
-                <button type="submit">+ Add Task</button>
-              </form>
-
-              <div className="filters">
-                {["All", "Pending", "Completed"].map(item => (
-                  <button
-                    key={item}
-                    type="button"
-                    className={filter === item ? "active" : ""}
-                    onClick={() => setFilter(item)}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-
-              <div className="task-list">
-                {filteredTasks.length === 0 ? (
-                  <p className="empty">No tasks here. Add a task to get started!</p>
-                ) : (
-                  filteredTasks.map(task => (
-                    <div className="task-item" key={task.id}>
-                      <label className="task-label">
-                        <input
-                          type="checkbox"
-                          checked={task.completed}
-                          onChange={() => toggleTask(task.id)}
-                        />
-                        <span className={task.completed ? "done" : ""}>{task.title}</span>
-                      </label>
-                      <button
-                        className="delete-btn"
-                        type="button"
-                        onClick={() => deleteTask(task.id)}
-                        aria-label={"Delete " + task.title}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-            </section>
-
-            <footer>Student Task Manager | Built with React.js</footer>
-          </main>
-        </div>
-      );
-    }
-
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(<App />);
-  </script>
-</body>
-</html>
+<header class="header"><div class="logo">StudyTrack</div><div class="header-right"><span>Student Task Manager</span><button id="themeBtn" class="secondary" type="button">🌙 Dark mode</button></div></header>
+<main class="container">
+<section class="welcome"><p class="tag">YOUR STUDY PLANNER</p><h1>Plan your day, achieve more!</h1><p>Organize assignments, track deadlines, and stay productive.</p></section>
+<section class="stats"><div class="stat-card"><span>Total Tasks</span><h2 id="totalCount">0</h2></div><div class="stat-card"><span>Pending</span><h2 id="pendingCount">0</h2></div><div class="stat-card"><span>Completed</span><h2 id="completedCount">0</h2></div><div class="stat-card"><span>Overdue</span><h2 id="overdueCount">0</h2></div></section>
+<section class="panel" style="margin-bottom:18px"><div class="section-heading"><h2 style="margin:0">Overall Progress</h2><strong id="progressText">0% completed</strong></div><div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div></section>
+<section class="panel"><h2 id="formHeading">Add a New Task</h2><form id="taskForm" class="form-grid"><input id="taskName" class="field" maxlength="120" placeholder="Task name (e.g. Complete assignment)" required/><select id="taskCategory" class="field"><option>Assignment</option><option>Exam</option><option>Project</option><option>Personal</option><option>Other</option></select><select id="taskPriority" class="field"><option value="Medium">Medium priority</option><option value="High">High priority</option><option value="Low">Low priority</option></select><input id="taskDue" class="field" type="date" aria-label="Due date"/><button class="primary" id="submitBtn" type="submit">+ Add Task</button></form><p class="hint">Your tasks are saved in this browser automatically.</p></section>
+<div class="toolbar"><input id="searchInput" class="field" placeholder="🔎 Search tasks..."/><select id="categoryFilter" class="field"><option value="All">All categories</option><option>Assignment</option><option>Exam</option><option>Project</option><option>Personal</option><option>Other</option></select><select id="sortSelect" class="field"><option value="created">Newest first</option><option value="due">Due date</option><option value="priority">Priority</option><option value="name">Name A–Z</option></select><button id="exportBtn" class="secondary" type="button">Export CSV</button><button id="clearDoneBtn" class="secondary" type="button">Clear completed</button></div>
+<section class="panel"><div class="section-heading"><h2>My Tasks</h2><span class="hint" id="shownCount">0 tasks shown</span></div><div class="filters" id="statusFilters"><button class="filter-btn active" data-filter="All">All</button><button class="filter-btn" data-filter="Pending">Pending</button><button class="filter-btn" data-filter="Completed">Completed</button><button class="filter-btn" data-filter="Overdue">Overdue</button></div><div id="message" class="toast hidden" role="status"></div><div class="task-list" id="taskList"></div></section>
+<footer>StudyTrack | Student Task Manager · Built with React-style task logic using HTML, CSS & JavaScript</footer>
+</main>
+<script>
+const STORAGE_KEY='studyTrackTasksV2';
+let tasks=[];let activeFilter='All';let editingId=null;
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');tasks=Array.isArray(saved)?saved:[]}catch{tasks=[]}
+const $=id=>document.getElementById(id);
+const priorityRank={High:0,Medium:1,Low:2};
+function saveTasks(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(tasks))}catch{showMessage('Could not save tasks. Your browser storage may be full.')}}
+function dateToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function isOverdue(task){return !task.completed&&task.dueDate&&task.dueDate<dateToday()}
+function safeText(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showMessage(text){$('message').textContent=text;$('message').classList.remove('hidden');clearTimeout(showMessage.timer);showMessage.timer=setTimeout(()=>$('message').classList.add('hidden'),3000)}
+function addOrUpdateTask(event){event.preventDefault();const title=$('taskName').value.trim();if(!title){showMessage('Please enter a task name.');return}const data={title,category:$('taskCategory').value,priority:$('taskPriority').value,dueDate:$('taskDue').value};if(editingId!==null){tasks=tasks.map(t=>t.id===editingId?{...t,...data}:t);editingId=null;$('formHeading').textContent='Add a New Task';$('submitBtn').textContent='+ Add Task';showMessage('Task updated successfully.')}else{tasks.unshift({id:Date.now(),...data,completed:false,createdAt:Date.now()});showMessage('Task added successfully.')}saveTasks();$('taskForm').reset();$('taskPriority').value='Medium';render()}
+function toggleTask(id){tasks=tasks.map(t=>t.id===id?{...t,completed:!t.completed}:t);saveTasks();render()}
+function deleteTask(id){const task=tasks.find(t=>t.id===id);if(!task)return;if(!confirm(`Delete "${task.title}"?`))return;tasks=tasks.filter(t=>t.id!==id);if(editingId===id)resetForm();saveTasks();render();showMessage('Task deleted.')}
+function editTask(id){const t=tasks.find(task=>task.id===id);if(!t)return;editingId=id;$('taskName').value=t.title;$('taskCategory').value=t.category;$('taskPriority').value=t.priority;$('taskDue').value=t.dueDate||'';$('formHeading').textContent='Edit Task';$('submitBtn').textContent='Save Changes';$('taskName').focus();window.scrollTo({top:0,behavior:'smooth'})}
+function resetForm(){editingId=null;$('taskForm').reset();$('taskPriority').value='Medium';$('formHeading').textContent='Add a New Task';$('submitBtn').textContent='+ Add Task'}
+function clearCompleted(){const count=tasks.filter(t=>t.completed).length;if(!count){showMessage('There are no completed tasks to clear.');return}if(!confirm(`Remove all ${count} completed task(s)?`))return;tasks=tasks.filter(t=>!t.completed);saveTasks();render();showMessage('Completed tasks cleared.')}
+function exportCSV(){if(!tasks.length){showMessage('There are no tasks to export yet.');return}const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const rows=[['Task','Category','Priority','Due Date','Status'],...tasks.map(t=>[t.title,t.category,t.priority,t.dueDate||'',t.completed?'Completed':'Pending'])];const csv='\uFEFF'+rows.map(r=>r.map(quote).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='studytrack-tasks.csv';a.click();URL.revokeObjectURL(url);showMessage('Tasks exported to CSV.')}
+function render(){const completed=tasks.filter(t=>t.completed).length;const pending=tasks.length-completed;const overdue=tasks.filter(isOverdue).length;const percent=tasks.length?Math.round(completed/tasks.length*100):0;$('totalCount').textContent=tasks.length;$('pendingCount').textContent=pending;$('completedCount').textContent=completed;$('overdueCount').textContent=overdue;$('progressText').textContent=percent+'% completed';$('progressBar').style.width=percent+'%';document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===activeFilter));let visible=tasks.filter(t=>{const q=$('searchInput').value.trim().toLowerCase();const matchText=t.title.toLowerCase().includes(q);const matchCategory=$('categoryFilter').value==='All'||t.category===$('categoryFilter').value;const matchStatus=activeFilter==='All'||(activeFilter==='Pending'&&!t.completed)||(activeFilter==='Completed'&&t.completed)||(activeFilter==='Overdue'&&isOverdue(t));return matchText&&matchCategory&&matchStatus});const sort=$('sortSelect').value;visible.sort((a,b)=>sort==='due'?((a.dueDate||'9999').localeCompare(b.dueDate||'9999')):sort==='priority'?(priorityRank[a.priority]-priorityRank[b.priority]):sort==='name'?a.title.localeCompare(b.title):(b.createdAt||b.id)-(a.createdAt||a.id));$('shownCount').textContent=`${visible.length} task${visible.length===1?'':'s'} shown`;$('taskList').innerHTML='';if(!visible.length){$('taskList').innerHTML='<p class="empty">No tasks found. Add a task or change your filters.</p>';return}visible.forEach(t=>{const item=document.createElement('article');item.className='task-item';const overdueLabel=isOverdue(t)?'<span class="overdue">Overdue</span>':'';const dueLabel=t.dueDate?`<span>📅 Due: ${safeText(t.dueDate)}</span>`:'<span>No deadline</span>';item.innerHTML=`<div class="task-main"><input type="checkbox" aria-label="Mark ${safeText(t.title)} completed" ${t.completed?'checked':''}/><div style="min-width:0"><div class="task-title ${t.completed?'done':''}">${safeText(t.title)}</div><div class="meta"><span class="pill">${safeText(t.category)}</span><span class="pill ${t.priority.toLowerCase()}">${safeText(t.priority)} priority</span>${dueLabel}${overdueLabel}${t.completed?'<span>✓ Completed</span>':''}</div></div></div><div class="task-actions"><button class="small-btn edit-btn" type="button">Edit</button><button class="small-btn delete-btn" type="button">Delete</button></div>`;item.querySelector('input[type=checkbox]').addEventListener('change',()=>toggleTask(t.id));item.querySelector('.edit-btn').addEventListener('click',()=>editTask(t.id));item.querySelector('.delete-btn').addEventListener('click',()=>deleteTask(t.id));$('taskList').appendChild(item)})}
+$('taskForm').addEventListener('submit',addOrUpdateTask);$('statusFilters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(b){activeFilter=b.dataset.filter;render()}});$('searchInput').addEventListener('input',render);$('categoryFilter').addEventListener('change',render);$('sortSelect').addEventListener('change',render);$('clearDoneBtn').addEventListener('click',clearCompleted);$('exportBtn').addEventListener('click',exportCSV);$('themeBtn').addEventListener('click',()=>{document.body.classList.toggle('dark');const dark=document.body.classList.contains('dark');$('themeBtn').textContent=dark?'☀️ Light mode':'🌙 Dark mode';try{localStorage.setItem('studyTrackDark',dark?'1':'0')}catch{}});try{if(localStorage.getItem('studyTrackDark')==='1'){document.body.classList.add('dark');$('themeBtn').textContent='☀️ Light mode'}}catch{}render();
+</script>
+</body></html>
